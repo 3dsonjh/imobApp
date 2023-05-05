@@ -12,7 +12,7 @@ export default function App() {
   if(logado==true){
     return <Home />
   } else {
-    return <Login />
+    return <Login logado={setLogado}/>
   }
 }
 
