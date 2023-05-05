@@ -1,8 +1,13 @@
-import { View } from "react-native-web";
+import { View , Text} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home()
 {
     return (
-        <View></View>
+        <SafeAreaView>
+        <View>
+            <Text>Tela Home</Text>
+        </View>
+        </SafeAreaView>
     )
 }
