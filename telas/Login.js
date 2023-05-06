@@ -1,4 +1,4 @@
-import { TextInput, Text, View } from "react-native"
+import { TextInput, Text, View, StyleSheet } from "react-native"
 import { Button } from "@rneui/themed"
 
 import { app } from '../firebase'
@@ -44,7 +44,12 @@ export default function Login( props ) {
                 secureTextEntry={true}
                 onChangeText={(evento) => setSenha(evento)} />
 
-            <Button title="Entrar" onPress={logar} />
+            <Button title="Entrar" onPress={logar} 
+                containerStyle={{
+                width: 300,
+                marginHorizontal: 50,
+                marginVertical: 10,
+                }}/>
         </View>
         </SafeAreaView>
     )
