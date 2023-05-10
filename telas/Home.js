@@ -8,7 +8,7 @@ import { ListItemTitle } from "@rneui/base/dist/ListItem/ListItem.Title";
 import { ListItemSubtitle } from "@rneui/base/dist/ListItem/ListItem.Subtitle";
 
 import { app } from '../firebase'
-import { getFirestore, collection, getDocs } from "firebase/firestore"
+import { getFirestore, collection, getDocs, query, where } from "firebase/firestore"
 import { useEffect, useState } from "react";
 import { ScrollView, StatusBar } from "react-native";
 import Avaliacao from "./Avaliacao";
@@ -26,16 +26,37 @@ export default function Home(props)
     }
 
     async function carregarImoveis(){
-        let imoveis = [];
+
+        //capturando o usuario
+        let usuario = await AsyncStorage.getItem('usuario');
+        usuario = JSON.parse(usuario);
+        console.log(usuario.user.uid);
+
+        let uid = usuario.user.uid;
         const ref = collection(db, "imoveis");
+        let filtro = query(ref, where("id_usuario","==",uid))
+
+        let imoveis = [];
+        
+        //const retorno = await getDocs(filtro);
         const retorno = await getDocs(ref);
+
         retorno.forEach((item)=>{
             let dados = item.data();
             dados.id = item.id;
             imoveis.push(dados);
         });
-        console.log(imoveis);
-        setCasas(imoveis);
+
+        if(imoveis.length>0){
+            console.log(imoveis);
+            setCasas(imoveis);
+        } else {
+            //setCasas("");
+            console.log(<Text>Nenhum Imóvel Cadastrado</Text>); //VER
+        }
+
+        
+
     }
 
     useEffect(()=>{
@@ -57,6 +78,8 @@ export default function Home(props)
             </Pressable>
         )
     });
+
+
 
     const tela = (selecionado)?
         <Avaliacao selecionado={selecionado} alterar={setSelecionado} />
